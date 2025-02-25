@@ -1,7 +1,7 @@
 
 # Image URL to use all building/pushing image targets
 REGISTRY := ghcr.io
-PROJECT := k8s-proxmox/cluster-api-provider-proxmox
+PROJECT := mojaloop/cluster-api-provider-proxmox
 RELEASE_TAG := latest
 IMG ?= $(REGISTRY)/$(PROJECT):$(RELEASE_TAG)
 # ENVTEST_K8S_VERSION refers to the version of kubebuilder assets to be downloaded by envtest binary.

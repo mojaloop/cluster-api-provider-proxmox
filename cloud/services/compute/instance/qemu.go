@@ -14,7 +14,6 @@ import (
 
 const (
 	bootDvice = "scsi0"
-	
 )
 
 // reconciles QEMU instance
@@ -163,6 +162,13 @@ func (s *Service) generateVMOptions() api.VirtualMachineCreateOptions {
 			log.FromContext(context.TODO()).Error(fmt.Errorf("invalid SCSI field"), "Failed to set extra disk", "field", fieldName)
 		}
 	}
+	//check if set to any, then we set to "" to allow any node.
+	var nodename string
+	if s.scope.NodeName() == "any" {
+		nodename = ""
+	} else {
+		nodename = s.scope.NodeName()
+	}
 
 	vmoptions := api.VirtualMachineCreateOptions{
 		ACPI:          boolToInt8(options.ACPI),
@@ -188,7 +194,7 @@ func (s *Service) generateVMOptions() api.VirtualMachineCreateOptions {
 		NameServer:    network.NameServer,
 		Net:           api.Net{Net0: net0},
 		Numa:          boolToInt8(options.NUMA),
-		Node:          s.scope.NodeName(),
+		Node:          nodename,
 		OnBoot:        boolToInt8(options.OnBoot),
 		OSType:        api.OSType(options.OSType),
 		Protection:    boolToInt8(options.Protection),
